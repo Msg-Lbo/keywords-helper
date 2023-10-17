@@ -4,8 +4,8 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
-            name: 'home',
+            path: '/keywords-helper',
+            name: 'keywords-helper',
             component: () => import('@/views/index.vue')
         }
     ]

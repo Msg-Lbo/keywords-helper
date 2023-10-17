@@ -10,6 +10,7 @@ export default defineConfig({
     Components({
       resolvers: [NaiveUiResolver()]
     })],
+  base: '/keywords-helper/',
   server: {
     host: '0.0.0.0'
   },
