@@ -4,7 +4,15 @@
       <n-card title="你的tag池子" size="small">
         <div class="tips">Tips:你可以用英文逗号分隔每一个关键词,然后回车...</div>
         <div class="add-tag">
-          <n-input v-model:value="text" type="text" placeholder="这里输入你的关键词,并回车吧.." @keyup.enter="addTag" />
+          <n-input-group>
+            <n-input
+              v-model:value="text"
+              type="text"
+              placeholder="这里输入你的关键词..."
+              @keyup.enter="addTag"
+            />
+            <n-button type="primary" ghost @click="addTag">添加</n-button>
+          </n-input-group>
         </div>
         <n-space>
           <n-tag v-for="item in tags" :key="item.value" type="info" closable @close="handleDelete(item.value)">
@@ -71,11 +79,12 @@ const getActiveTags = () => {
     const index = Math.floor(Math.random() * len);
     activeTags.value.push(arr[index]);
   }
-  if (activeTags.value.length === 0) {
+  if (tags.value.length === 0) {
     message.error("你还没有添加tag哦...");
+  } else {
+    message.success("要坚持画下来哦~");
   }
   localStorage.setItem("tagsNum", tagsNum.value.toString());
-  message.success("要坚持画下来哦~");
 };
 </script>
 
