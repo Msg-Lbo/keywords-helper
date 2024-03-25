@@ -18,7 +18,6 @@ onMounted(() => {
   background-image: url("@/assets/images/bg.png");
   background-size: cover;
   background-position: 50% 50%;
-  position: fixed;
   // 灰色遮罩
   &:before {
     content: "";

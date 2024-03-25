@@ -1,44 +1,46 @@
 <template>
   <div id="content">
-    <div class="tags-content">
-      <n-card title="你的tag池子" size="small">
-        <div class="tips">Tips:你可以用英文逗号分隔每一个关键词,然后回车...</div>
-        <div class="add-tag">
-          <n-input-group>
-            <n-input
-              v-model:value="text"
-              type="text"
-              placeholder="这里输入你的关键词..."
-              @keyup.enter="addTag"
-            />
-            <n-button type="primary" ghost @click="addTag">添加</n-button>
-          </n-input-group>
-        </div>
-        <n-space>
-          <n-tag v-for="item in tags" :key="item.value" type="info" closable @close="handleDelete(item.value)">
-            {{ item.lable }}
-          </n-tag>
-        </n-space>
-      </n-card>
-      <n-card>
-        <div class="get-tags">
-          <div class="tips">Tips:想要几个关键词呢...</div>
+    <n-scrollbar style="max-height: 100vh">
+      <div class="tags-content">
+        <header-view />
+        <n-card>
+          <div class="get-tags">
+            <div class="tips">Tips:想要几个关键词呢...</div>
+            <n-space>
+              <n-input-number v-model:value="tagsNum" type="text" placeholder="想要几个关键词呢..." />
+              <n-button type="success" @click="getActiveTags">获取</n-button>
+            </n-space>
+          </div>
           <n-space>
-            <n-input-number v-model:value="tagsNum" type="text" placeholder="想要几个关键词呢..." />
-            <n-button type="success" @click="getActiveTags">获取</n-button>
+            <n-tag type="success" v-for="item in activeTags" :key="item.value">{{ item.lable }}</n-tag>
           </n-space>
-        </div>
-        <n-space>
-          <n-tag type="success" v-for="item in activeTags" :key="item.value">{{ item.lable }}</n-tag>
-        </n-space>
-      </n-card>
-    </div>
+        </n-card>
+        <n-card title="你的tag池子" size="small">
+          <div class="tips">Tips:你可以用英文逗号分隔每一个关键词,然后回车...</div>
+          <div class="add-tag">
+            <n-input-group>
+              <n-input v-model:value="text" type="text" placeholder="这里输入你的关键词..." @keyup.enter="addTag" />
+              <n-button type="primary" ghost @click="addTag">添加</n-button>
+            </n-input-group>
+          </div>
+          <n-space>
+            <n-tag v-for="item in tags" :key="item.value" type="info" closable @close="handleDelete(item.value)">
+              {{ item.lable }}
+            </n-tag>
+          </n-space>
+        </n-card>
+
+      </div>
+    </n-scrollbar>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import { useMessage } from "naive-ui";
+import headerView from "@/components/header.vue";
+
 const message = useMessage();
 const text = ref("");
 const isTags = localStorage.getItem("tags");
@@ -90,18 +92,23 @@ const getActiveTags = () => {
 
 <style lang="scss" scoped>
 #content {
-  margin-top: 20px;
+
   .tags-content {
+    height: 100%;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
+
     ::v-deep(.n-card) {
       margin-bottom: 20px;
     }
+
     .tips {
       margin-bottom: 16px;
       font-size: 12px;
       color: #00000080;
     }
+
     .add-tag {
       margin-bottom: 16px;
     }
